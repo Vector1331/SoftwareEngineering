@@ -45,6 +45,7 @@ public class WriteFragment extends Fragment {
     EditText write_diary;
     EditText write_for_today;
     EditText write_for_tommorow;
+    Button write_register;
     String day = "";
     int picked_weather;
 
@@ -70,6 +71,7 @@ public class WriteFragment extends Fragment {
         write_diary = (EditText) view.findViewById(R.id.write_diary);
         write_for_today = (EditText) view.findViewById(R.id.write_for_today);
         write_for_tommorow = (EditText) view.findViewById(R.id.write_for_tommorow);
+        write_register = (Button)view.findViewById(R.id.write_register);
 
         write_date_picker.setVisibility(View.GONE);
 
@@ -171,6 +173,14 @@ public class WriteFragment extends Fragment {
                 write_weather1.setImageResource(R.mipmap.ic_launcher);
                 write_weather2.setImageResource(R.mipmap.ic_launcher);
                 write_weather3.setImageResource(R.mipmap.ic_launcher);
+            }
+        });
+
+        //등록하기 버튼 클릭 시
+        write_register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
 

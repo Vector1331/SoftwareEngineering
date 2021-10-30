@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
+<androidx.core.widget.NestedScrollView xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="#FFFFFF"
     tools:context=".WriteFragment">
 
@@ -111,6 +110,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:text="오늘의 날씨"
             android:textSize="25dp"/>
 
@@ -166,9 +166,9 @@
         android:id="@+id/write_diary"
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:hint="일기를 입력해주세요."
         android:background="#F2FFC5"
-        />
+        android:hint="일기를 입력해주세요." />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -178,7 +178,7 @@
     <EditText
         android:id="@+id/write_for_today"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginTop="10dp"
         android:background="#F2FFC5"
         android:hint="오늘의 나에게 한 줄"
@@ -192,13 +192,14 @@
     <EditText
         android:id="@+id/write_for_tommorow"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginTop="10dp"
         android:background="#F2FFC5"
         android:hint="내일의 나에게 한 줄"
         />
 
     <Button
+        android:id="@+id/write_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
