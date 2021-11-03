@@ -1,9 +1,14 @@
 package com.example.daysduk;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,21 +18,20 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import static android.app.Activity.RESULT_CANCELED;
+import static android.app.Activity.RESULT_OK;
 import static com.example.daysduk.R.mipmap.ic_launcher;
 import static com.example.daysduk.R.mipmap.ic_launcher_round;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SettingFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class WriteFragment extends Fragment {
 
     //변수 선언
@@ -46,6 +50,8 @@ public class WriteFragment extends Fragment {
     EditText write_for_today;
     EditText write_for_tommorow;
     Button write_register;
+    ImageView write_upload_img;
+    ImageView write_picked_imgview;
     String day = "";
     int picked_weather;
 
@@ -72,6 +78,8 @@ public class WriteFragment extends Fragment {
         write_for_today = (EditText) view.findViewById(R.id.write_for_today);
         write_for_tommorow = (EditText) view.findViewById(R.id.write_for_tommorow);
         write_register = (Button)view.findViewById(R.id.write_register);
+        write_upload_img = (ImageView)view.findViewById(R.id.write_upload_img);
+        write_picked_imgview = (ImageView)view.findViewById(R.id.write_picked_imgview);
 
         write_date_picker.setVisibility(View.GONE);
 
@@ -176,6 +184,14 @@ public class WriteFragment extends Fragment {
             }
         });
 
+        //사진 추가 버튼 클릭 시
+        write_upload_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imageUpload(view);
+            }
+        });
+
         //등록하기 버튼 클릭 시
         write_register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -227,5 +243,39 @@ public class WriteFragment extends Fragment {
 
         }
         return day;
+    }
+
+    //사진 등록 메소드
+    //이미지 업로드
+    public void imageUpload(View view) {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+        startActivityForResult(intent, 101);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if(requestCode == 101)
+        {
+            if(resultCode == RESULT_OK)
+            {
+                try{
+                    InputStream in = getContext().getContentResolver().openInputStream(data.getData());
+
+                    Bitmap img = BitmapFactory.decodeStream(in);
+                    in.close();
+                    write_picked_imgview.setVisibility(View.VISIBLE);
+                    write_picked_imgview.setImageBitmap(img);
+                }catch(Exception e)
+                {
+
+                }
+            }
+            else if(resultCode == RESULT_CANCELED)
+            {
+                Toast.makeText(getContext(), "사진 선택 취소 ", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 }

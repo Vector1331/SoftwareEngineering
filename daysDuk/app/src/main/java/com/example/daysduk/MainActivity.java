@@ -58,10 +58,10 @@ public class MainActivity extends AppCompatActivity {
                         Log.i(TAG, "캘린더 화면으로 전환");
                         getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, fragment_calendar).commitAllowingStateLoss();
                         return true;
-                    case R.id.menu_image:
-                        Log.i(TAG, "이미지 화면으로 전환");
-                        getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, fragment_image).commitAllowingStateLoss();
-                        return true;
+//                    case R.id.menu_image:
+//                        Log.i(TAG, "이미지 화면으로 전환");
+//                        getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, fragment_image).commitAllowingStateLoss();
+//                        return true;
                     case R.id.menu_setting:
                         Log.i(TAG, "설정 화면으로 전환");
                         getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, fragment_setting).commitAllowingStateLoss();

@@ -14,10 +14,6 @@
         android:title="캘린더"
         android:enabled="true" />
     <item
-        android:id="@+id/menu_image"
-        android:title="이미지"
-        android:enabled="true" />
-    <item
         android:id="@+id/menu_setting"
         android:title="설정"
         android:enabled="true" />
