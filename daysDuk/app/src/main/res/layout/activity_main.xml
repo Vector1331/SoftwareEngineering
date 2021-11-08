@@ -5,12 +5,14 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".MainActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/back">
 
     <FrameLayout
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+
         android:layout_weight="15"
         />
 
@@ -20,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:layout_gravity="bottom"
-        app:itemBackground="@color/teal_700"
+        app:itemBackground="@color/basic"
         app:menu="@menu/bottom_menu" />
 
 </LinearLayout>
