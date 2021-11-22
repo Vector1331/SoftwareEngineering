@@ -1,6 +1,8 @@
 package com.example.daysduk;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.view.LayoutInflater;
@@ -18,7 +20,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Array;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,6 +35,7 @@ public class ContentsAdapter extends RecyclerView.Adapter<ContentsAdapter.Holder
 
     String day = "";
     Drawable d;
+    Bitmap bm;
     View v;
 
     ArrayList<ContentsInfo> items = new ArrayList<>();
@@ -59,9 +66,8 @@ public class ContentsAdapter extends RecyclerView.Adapter<ContentsAdapter.Holder
         holder.list_day.setText(dateArray1[2]);
         holder.list_weekday.setText(Toweekday(dateArray1[0]+dateArray1[1]+dateArray1[2]));
         holder.list_weather.setImageDrawable(setWeather(item.getDiary_weather()));
-        //holder.list_imgView.setImageBitmap(item.getImage());
+        holder.list_imgView.setImageBitmap(setImage(item.getDiary_img()));
         holder.list_content.setText(item.getDiary_content());
-
 
     }
 
@@ -92,7 +98,21 @@ public class ContentsAdapter extends RecyclerView.Adapter<ContentsAdapter.Holder
         }
     }
 
-    //날씨 Bitmap 설정 메소드
+    //이미지 Bitmap 설정 메소드
+    private Bitmap setImage(String inputUrl) {
+        try {
+            URL url = new URL(inputUrl);
+            InputStream inputStream = url.openConnection().getInputStream();
+            bm = BitmapFactory.decodeStream(inputStream);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bm;
+    }
+
+    //날씨 Drawable 설정 메소드
     private Drawable setWeather(String inputWeather) {
 
         if(inputWeather=="1"){
