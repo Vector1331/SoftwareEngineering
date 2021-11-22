@@ -2,80 +2,82 @@ package com.example.daysduk;
 
 import android.graphics.drawable.Drawable;
 
+import java.util.Date;
+
 public class ContentsInfo {
-    private String year;
-    private String month;
-    private String day;
-    private String weekday;
-    private Drawable weather;
-    private Drawable image;
-    private String content;
+    private String diary_title;
+    private String diary_date;
+    private String diary_weather;
+    private String diary_content;
+    private String diary_todayme;
+    private String diary_tommorowme;
+    private String diary_img;
 
 
     public ContentsInfo(){}
-    public ContentsInfo(String year, String month, String day, String weekday, Drawable weather, Drawable image, String content) {
-        this.year = year;
-        this.month = month;
-        this.day = day;
-        this.weekday = weekday;
-        this.weather = weather;
-        this.image = image;
-        this.content = content;
+    public ContentsInfo(String diary_title, String diary_date, String diary_weather, String diary_content, String diary_todayme, String diary_tommorowme, String diary_img) {
+        this.diary_title = diary_title;
+        this.diary_date = diary_date;
+        this.diary_weather = diary_weather;
+        this.diary_content = diary_content;
+        this.diary_todayme = diary_todayme;
+        this.diary_tommorowme = diary_tommorowme;
+        this.diary_img = diary_img;
     }
 
-    public String getYear() {
-        return year;
+    public String getDiary_title() {
+        return diary_title;
     }
 
-    public void setYear(String year) {
-        this.year = year;
+    public void setDiary_title(String diary_title) {
+        this.diary_title = diary_title;
     }
 
-    public String getMonth() {
-        return month;
+    public String getDiary_date() {
+        return diary_date;
     }
 
-    public void setMonth(String month) {
-        this.month = month;
+    public void setDiary_date(String diary_date) {
+        this.diary_date = diary_date;
     }
 
-    public String getDay() {
-        return day;
+    public String getDiary_weather() {
+        return diary_weather;
     }
 
-    public void setDay(String day) {
-        this.day = day;
+    public void setDiary_weather(String diary_weather) {
+        this.diary_weather = diary_weather;
     }
 
-    public String getWeekday() {
-        return weekday;
+    public String getDiary_content() {
+        return diary_content;
     }
 
-    public void setWeekday(String weekday) {
-        this.weekday = weekday;
+    public void setDiary_content(String diary_content) {
+        this.diary_content = diary_content;
     }
 
-    public Drawable getWeather() {
-        return weather;
+    public String getDiary_todayme() {
+        return diary_todayme;
     }
 
-    public void setWeather(Drawable weather) {
-        this.weather = weather;
+    public void setDiary_todayme(String diary_todayme) {
+        this.diary_todayme = diary_todayme;
     }
 
-    public Drawable getImage() {
-        return image;
+    public String getDiary_tommorowme() {
+        return diary_tommorowme;
     }
 
-    public void setImage(Drawable image) {
-        this.image = image;
+    public void setDiary_tommorowme(String diary_tommorowme) {
+        this.diary_tommorowme = diary_tommorowme;
     }
 
-    public String getContent() {
-        return content;
+    public String getDiary_img() {
+        return diary_img;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setDiary_img(String diary_img) {
+        this.diary_img = diary_img;
     }
 }
