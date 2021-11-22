@@ -18,6 +18,8 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.core.view.ContentInfoCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.daysduk.model.PostItem;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -38,8 +40,9 @@ public class ContentsAdapter extends RecyclerView.Adapter<ContentsAdapter.Holder
     Bitmap bm;
     View v;
 
-    ArrayList<ContentsInfo> items = new ArrayList<>();
-    public ContentsAdapter(ArrayList<ContentsInfo> items){
+    ArrayList<PostItem> items = new ArrayList<>();
+    //ArrayList<ContentsInfo> items = new ArrayList<>();
+    public ContentsAdapter(ArrayList<PostItem> items){
         this.items = items;
     }
 
@@ -53,21 +56,23 @@ public class ContentsAdapter extends RecyclerView.Adapter<ContentsAdapter.Holder
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull ContentsAdapter.Holder holder, int position) {
-        ContentsInfo item = items.get(position);
+        PostItem item = items.get(position);
         //날짜 분할
-        String year = item.getDiary_date();
+        String year = item.getDate();
         //String year = "2021-11-21T10:24:41.249220Z";
         String dateArray0= year.split("T")[0];
         String []dateArray1 = dateArray0.split("-");
         System.out.println(dateArray1[2]);
 
+
         holder.list_year.setText(dateArray1[0]);
         holder.list_month.setText(dateArray1[1]);
         holder.list_day.setText(dateArray1[2]);
         holder.list_weekday.setText(Toweekday(dateArray1[0]+dateArray1[1]+dateArray1[2]));
-        holder.list_weather.setImageDrawable(setWeather(item.getDiary_weather()));
-        holder.list_imgView.setImageBitmap(setImage(item.getDiary_img()));
-        holder.list_content.setText(item.getDiary_content());
+        holder.list_weather.setImageDrawable(setWeather(item.getWeather()));
+        holder.list_imgView.setImageBitmap(setImage(item.getImage()));
+        holder.list_content.setText(item.getContent());
+        holder.list_title.setText(item.getTitle());
 
     }
 
@@ -84,6 +89,7 @@ public class ContentsAdapter extends RecyclerView.Adapter<ContentsAdapter.Holder
         private ImageView list_weather;
         private ImageView list_imgView;
         private TextView list_content;
+        private TextView list_title;
 
         public Holder(@NonNull @NotNull View itemView) {
             super(itemView);
@@ -94,6 +100,7 @@ public class ContentsAdapter extends RecyclerView.Adapter<ContentsAdapter.Holder
             list_weather = itemView.findViewById(R.id.list_weather);
             list_imgView = itemView.findViewById(R.id.list_imgView);
             list_content = itemView.findViewById(R.id.list_content);
+            list_title = itemView.findViewById(R.id.list_title);
 
         }
     }

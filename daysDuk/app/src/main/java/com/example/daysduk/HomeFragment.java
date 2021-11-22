@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.daysduk.model.PostItem;
+
 import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
@@ -17,7 +19,7 @@ public class HomeFragment extends Fragment {
     RecyclerView contentRecyclerView;
     LinearLayoutManager linearLayoutManager;
     ContentsAdapter adapter;
-    ArrayList<ContentsInfo> items = new ArrayList<>();
+    ArrayList<PostItem> items = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
