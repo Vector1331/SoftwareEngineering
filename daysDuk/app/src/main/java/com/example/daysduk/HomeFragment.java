@@ -29,7 +29,7 @@ public class HomeFragment extends Fragment {
     ContentsAdapter adapter;
     ArrayList<PostItem> postList;
 
-    private static String BASE_URL = "http://192.168.120.137:8000/api/";
+    private static final String BASE_URL = "http://192.168.219.104:8000/api/";
     private MyAPI mMyAPI;
 
     String diary_weather = "1"; //default값
@@ -71,29 +71,56 @@ public class HomeFragment extends Fragment {
         contentRecyclerView.setAdapter(adapter);
         Call<List<PostItem>> getCall = mMyAPI.get_diary();
 
+        //test
+        PostItem postItem1 = new PostItem(1,"hi", "2021-01-01T", "1",
+                "안녕안녕", "오늘", "내일",null);
+        PostItem postItem2 = new PostItem(2,"hi2", "2021-01-02T", "3",
+                "안녕안녕2", "오늘2", "내일2",null);
+
+        adapter.addItem(postItem1);
+        adapter.addItem(postItem2);
+
         getCall.enqueue(new Callback<List<PostItem>>() {
             @Override
             public void onResponse(Call<List<PostItem>> call, Response<List<PostItem>> response) {
                 if( response.isSuccessful()){
                     List<PostItem> result = response.body();
-                    for( PostItem item : result){
-                        diary_weather = item.getWeather();
-                        diary_img = item.getImage();
-                        diary_title = item.getTitle();
-                        diary_content = item.getContent();
-                        diary_id = item.getDiary_id();
-                        diary_date = item.getDate();
-                        diary_todayme = item.getTodayme();
-                        diary_tomorrowme = item.getTomorrowme();
-                        Log.d(TAG, diary_title + "   title   hi");
-                        Log.d(TAG, diary_img + "   img   hi");
-                        PostItem postItem = new PostItem(diary_id,diary_title, diary_date, diary_weather,
-                                diary_content, diary_todayme, diary_tomorrowme,diary_img);
-                        adapter.addItem(postItem);
+                    //for(PostItem item : result){
+                    for(int i=0; i<result.size(); i++){
+//                        diary_weather = item.getgetWeather();
+//                        diary_img = item.getImage();
+//                        diary_title = item.getTitle();
+//                        diary_content = item.getContent();
+//                        diary_id = item.getDiary_id();
+//                        diary_date = item.getDate();
+//                        diary_todayme = item.getTodayme();
+//                        diary_tomorrowme = item.getTomorrowme();
+                        diary_weather = result.get(i).getWeather();
+                        diary_img = result.get(i).getImage();
+                        diary_title = result.get(i).getTitle();
+                        diary_content = result.get(i).getContent();
+                        diary_id = result.get(i).getDiary_id();
+                        diary_date = result.get(i).getDate();
+                        diary_todayme = result.get(i).getTodayme();
+                        diary_tomorrowme = result.get(i).getTomorrowme();
 
+                        System.out.println("시작**weather:"+diary_weather+
+                                "**image:"+diary_img+
+                                "**title:"+diary_title+
+                                "**content:"+diary_content+
+                                "**id:"+diary_id+
+                                "**date:"+diary_date+
+                                "**todayme:"+diary_todayme+
+                                "**tomorrowme:"+diary_tomorrowme +"**끝");
+//                        Log.d(TAG, diary_title + "   title   hi");
+//                        Log.d(TAG, diary_img + "   img   hi");
+                        PostItem postItem = new PostItem(diary_id,diary_title, diary_date, diary_weather,
+                                diary_content, diary_todayme, diary_tomorrowme, diary_img);
+                        adapter.addItem(postItem);
                     }
                     //postList.add(result);
                     //imageOut.setImageResource(imageOut);
+                    adapter.notifyDataSetChanged();
 
                 }else {
                     Log.d(TAG,"Status Code : " + response.code());
