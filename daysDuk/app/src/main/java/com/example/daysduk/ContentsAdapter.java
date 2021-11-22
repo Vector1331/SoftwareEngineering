@@ -32,18 +32,20 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class ContentsAdapter extends RecyclerView.Adapter<ContentsAdapter.Holder> {
-
+    private ArrayList<PostItem> postdata;
     String day = "";
     Drawable d;
     Bitmap bm;
     View v;
 
-    ArrayList<PostItem> items = new ArrayList<>();
+    //ArrayList<PostItem> items = new ArrayList<>();
+    //List<PostItem> items;
     //ArrayList<ContentsInfo> items = new ArrayList<>();
-    public ContentsAdapter(ArrayList<PostItem> items){
-        this.items = items;
+    public ContentsAdapter(ArrayList<PostItem> postdata){
+        this.postdata = postdata;
     }
 
     @NonNull
@@ -56,7 +58,7 @@ public class ContentsAdapter extends RecyclerView.Adapter<ContentsAdapter.Holder
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull ContentsAdapter.Holder holder, int position) {
-        PostItem item = items.get(position);
+        PostItem item = postdata.get(position);
         //날짜 분할
         String year = item.getDate();
         //String year = "2021-11-21T10:24:41.249220Z";
@@ -78,7 +80,7 @@ public class ContentsAdapter extends RecyclerView.Adapter<ContentsAdapter.Holder
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return postdata.size();
     }
 
     public class Holder extends RecyclerView.ViewHolder {
@@ -179,5 +181,8 @@ public class ContentsAdapter extends RecyclerView.Adapter<ContentsAdapter.Holder
 
         }
         return day;
+    }
+    public void addItem(PostItem item){
+        postdata.add(item);
     }
 }
