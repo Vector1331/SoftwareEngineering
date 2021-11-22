@@ -47,6 +47,7 @@ public class WriteFragment extends Fragment {
     ImageView write_weather3;
     ImageView write_weather4;
     EditText write_diary;
+    EditText write_diaryTitle;
     EditText write_for_today;
     EditText write_for_tommorow;
     Button write_register;
@@ -75,6 +76,7 @@ public class WriteFragment extends Fragment {
         write_weather3 = (ImageView) view.findViewById(R.id.write_weather3);
         write_weather4 = (ImageView) view.findViewById(R.id.write_weather4);
         write_diary = (EditText) view.findViewById(R.id.write_diary);
+        write_diaryTitle = (EditText) view.findViewById(R.id.write_diaryTitle);
         write_for_today = (EditText) view.findViewById(R.id.write_for_today);
         write_for_tommorow = (EditText) view.findViewById(R.id.write_for_tommorow);
         write_register = (Button)view.findViewById(R.id.write_register);
