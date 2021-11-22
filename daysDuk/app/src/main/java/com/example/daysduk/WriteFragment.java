@@ -9,6 +9,8 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,12 +22,23 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.daysduk.model.PostItem;
+import com.google.gson.Gson;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
@@ -34,7 +47,7 @@ import static com.example.daysduk.R.mipmap.ic_launcher_round;
 
 public class WriteFragment extends Fragment {
 
-    //변수 선언
+    //변수 선언 -xml
     Button write_date_button;
     LinearLayout write_date_tv;
     TextView write_year;
@@ -55,6 +68,20 @@ public class WriteFragment extends Fragment {
     ImageView write_picked_imgview;
     String day = "";
     int picked_weather;
+
+    private MyAPI mMyAPI;
+    public static final String BASE_URL = "http://192.168.120.137:8000/api/";
+    public final  String TAG = getClass().getSimpleName();
+    //post요청을 위한 필드변수 선언
+    String diary_weather = "1"; //default값
+    String diary_img;
+    String diary_date = "";
+    String diary_todayme = "";
+    String diary_tomorrowme = "";
+    String diary_content ="default content";
+    String diary_title="default title";
+    int diary_id;
+    byte[] byterray;
 
 
     @Override
@@ -103,6 +130,8 @@ public class WriteFragment extends Fragment {
         write_day.setText(day);
         write_weekday.setText(weekDay);
 
+        //레트로핏 API 생성 메소드 호출
+        initMyAPI(BASE_URL);
 
         //날짜 선택하기 버튼 클릭 시
         write_date_button.setOnClickListener(new View.OnClickListener() {
@@ -198,12 +227,60 @@ public class WriteFragment extends Fragment {
         write_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d(TAG,"POST");
+                diary_weather = String.valueOf(picked_weather);
+                diary_title = write_diaryTitle.getText().toString();
+                diary_content = write_diary.getText().toString();
+                diary_todayme = write_for_today.getText().toString();
+                diary_tomorrowme = write_for_tommorow.getText().toString();
+                //Diary내용 Post하기위한 객체 생성
+                PostItem item = new PostItem(diary_id,diary_title, diary_date, diary_weather,
+                        diary_content, diary_todayme, diary_tomorrowme,diary_img);
+                //Service이용해서 CALL 보낸다
+                Call<PostItem> postCall = mMyAPI.post_diary(item);
+                //Call 객체 네트워킹 시킴
+                postCall.enqueue(new Callback<PostItem>() {
+                    @Override
+                    //반응 오면 onResponse
+                    public void onResponse(Call<PostItem> call, Response<PostItem> response) {
+                        //반응이 성공이면
+                        if(response.isSuccessful()){
+                            Log.d(TAG,"등록 완료");
+                        }else {
+                            //안될 경우 item에 저장값 보기위한 로그출력
+                            Log.d(TAG,new Gson().toJson(item));
+                            //상태코드 로그 출력
+                            Log.d(TAG,"Status Code : " + response.code());
+                            Log.d(TAG,new Gson().toJson(response.errorBody()));
+                            Log.d(TAG,new Gson().toJson(call.request().body()));
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<PostItem> call, Throwable t) {
+                        Log.d(TAG,"Fail msg : " + t.getMessage());
+                    }
+                });
 
             }
         });
 
         // Inflate the layout for this fragment
         return view;
+    }
+
+    //레트로핏 객체 생성을 위한 메소드
+    private void initMyAPI(String baseUrl){
+        Log.d(TAG,"initMyAPI : " + baseUrl);
+
+        //Json 컨버터 등록
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(baseUrl)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        mMyAPI = retrofit.create(MyAPI.class);
     }
 
 
@@ -263,12 +340,19 @@ public class WriteFragment extends Fragment {
             if(resultCode == RESULT_OK)
             {
                 try{
+                    //데이터 타입 data.getData() : uri
                     InputStream in = getContext().getContentResolver().openInputStream(data.getData());
-
+                    //데이터 byteArray 이진파일로 바꾸기
+                    //byte[] inputData = getBytes(in);    //inputData를 diary_img로 해서 POST요청 보내기
+                    //diary_img = inputData;
                     Bitmap img = BitmapFactory.decodeStream(in);
                     in.close();
                     write_picked_imgview.setVisibility(View.VISIBLE);
                     write_picked_imgview.setImageBitmap(img);
+                    //Bitmap에서 byteArray
+                    byterray = bitmapToByteArray(img);
+                    //byteArray를 base64로 인코딩해서 diary_img에 넣기
+                    diary_img = Base64.encodeToString(byterray,Base64.NO_WRAP);
                 }catch(Exception e)
                 {
 
@@ -279,5 +363,24 @@ public class WriteFragment extends Fragment {
                 Toast.makeText(getContext(), "사진 선택 취소 ", Toast.LENGTH_LONG).show();
             }
         }
+    }
+    public byte[] getBytes(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+        int bufferSize = 1024;
+        byte[] buffer = new byte[bufferSize];
+
+        int len = 0;
+        while ((len = inputStream.read(buffer)) != -1) {
+            byteBuffer.write(buffer, 0, len);
+        }
+        return byteBuffer.toByteArray();
+    }
+
+    // Bitmap을 Byte로 변환
+    public byte[] bitmapToByteArray( Bitmap bitmap ) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream() ;
+        bitmap.compress( Bitmap.CompressFormat.JPEG, 100, stream) ;
+        byte[] byteArray = stream.toByteArray() ;
+        return byteArray ;
     }
 }
