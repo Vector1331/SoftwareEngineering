@@ -30,24 +30,24 @@ public class HomeFragment extends Fragment {
         contentRecyclerView.setLayoutManager(linearLayoutManager);
         contentRecyclerView.setAdapter(adapter);
 
-        items.add(new ContentsInfo(
-                "2021", "11", "8", "월",
-                getResources().getDrawable(R.drawable.ic_launcher_background),
-                getResources().getDrawable(R.mipmap.gallery2),
-                "일기 내용 아이템 추가 테스트3"
-        ));
-        items.add(new ContentsInfo(
-                "2021", "11", "7", "일",
-                getResources().getDrawable(R.drawable.ic_launcher_background),
-                getResources().getDrawable(R.mipmap.gallery2),
-                "일기 내용 아이템 추가 테스트2"
-        ));
-        items.add(new ContentsInfo(
-                "2021", "11", "6", "토",
-                getResources().getDrawable(R.drawable.ic_launcher_background),
-                getResources().getDrawable(R.mipmap.gallery2),
-                "일기 내용 아이템 추가 테스트1"
-        ));
+//        items.add(new ContentsInfo(
+//                "2021", "11", "8", "월",
+//                getResources().getDrawable(R.drawable.ic_launcher_background),
+//                getResources().getDrawable(R.mipmap.gallery2),
+//                "일기 내용 아이템 추가 테스트3"
+//        ));
+//        items.add(new ContentsInfo(
+//                "2021", "11", "7", "일",
+//                getResources().getDrawable(R.drawable.ic_launcher_background),
+//                getResources().getDrawable(R.mipmap.gallery2),
+//                "일기 내용 아이템 추가 테스트2"
+//        ));
+//        items.add(new ContentsInfo(
+//                "2021", "11", "6", "토",
+//                getResources().getDrawable(R.drawable.ic_launcher_background),
+//                getResources().getDrawable(R.mipmap.gallery2),
+//                "일기 내용 아이템 추가 테스트1"
+//        ));
         return view;
     }
 }
