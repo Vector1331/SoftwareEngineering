@@ -1,30 +1,27 @@
 package com.example.daysduk;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
-import androidx.core.view.ContentInfoCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.daysduk.model.PostItem;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Array;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
@@ -32,14 +29,15 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
-public class ContentsAdapter extends RecyclerView.Adapter<ContentsAdapter.Holder> {
+
+public class ContentsAdapter extends RecyclerView.Adapter<ContentsAdapter.Holder>  {
     private ArrayList<PostItem> postdata;
     String day = "";
     Drawable d;
-    Bitmap bm;
+    Bitmap bm=null;
     View v;
+    ContentsAdapter.Holder holder;
 
     //ArrayList<PostItem> items = new ArrayList<>();
     //List<PostItem> items;
@@ -71,11 +69,35 @@ public class ContentsAdapter extends RecyclerView.Adapter<ContentsAdapter.Holder
         holder.list_month.setText(dateArray1[1]);
         holder.list_day.setText(dateArray1[2]);
         holder.list_weekday.setText(Toweekday(dateArray1[0]+dateArray1[1]+dateArray1[2]));
-        holder.list_weather.setImageDrawable(setWeather(item.getWeather()));
-        holder.list_imgView.setImageBitmap(setImage(item.getImage()));
         holder.list_content.setText(item.getContent());
         holder.list_title.setText(item.getTitle());
 
+        //이미지 부분
+        if(item.getImage() == null){
+            //은지님 이부분 데이터베이스에 일기 사진이 없을 경우 디폴트로 띄울 사진 넣어주시면 돼요!!
+            holder.list_imgView.setImageResource(R.mipmap.gallery2);
+        } else if(item.getImage() !=null){
+            Glide.with(v).load(item.getImage()).into(holder.list_imgView);
+        }
+
+        //날씨 부분
+        String inputWeather = item.getWeather();
+        if(inputWeather=="1"){
+            //해
+            holder.list_weather.setImageResource(R.drawable.sun);
+        } else if(inputWeather=="2"){
+            //바람
+            holder.list_weather.setImageResource(R.drawable.wind);
+        } else if(inputWeather=="3"){
+            //비
+            holder.list_weather.setImageResource(R.drawable.rain);
+        } else if(inputWeather=="4"){
+            //번개
+            holder.list_weather.setImageResource(R.drawable.lightning);
+        } else {
+            //null값일 경우 해(임시)로 설정
+            holder.list_weather.setImageResource(R.drawable.sun);
+        }
     }
 
     @Override
@@ -107,41 +129,6 @@ public class ContentsAdapter extends RecyclerView.Adapter<ContentsAdapter.Holder
         }
     }
 
-    //이미지 Bitmap 설정 메소드
-    private Bitmap setImage(String inputUrl) {
-        try {
-            URL url = new URL(inputUrl);
-            InputStream inputStream = url.openConnection().getInputStream();
-            bm = BitmapFactory.decodeStream(inputStream);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return bm;
-    }
-
-    //날씨 Drawable 설정 메소드
-    private Drawable setWeather(String inputWeather) {
-
-        if(inputWeather=="1"){
-            //해
-            Drawable d = v.getResources().getDrawable(R.drawable.sun);
-        } else if(inputWeather=="2"){
-            //바람
-            Drawable d = v.getResources().getDrawable(R.drawable.wind);
-        } else if(inputWeather=="3"){
-            //비
-            Drawable d = v.getResources().getDrawable(R.drawable.rain);
-        } else if(inputWeather=="4"){
-            //번개
-            Drawable d = v.getResources().getDrawable(R.drawable.lightning);
-        } else {
-            //null값일 경우 해로 설정
-            Drawable d = v.getResources().getDrawable(R.drawable.sun);
-        }
-        return d;
-    }
 
     //요일 구하기 메소드
     private String Toweekday(String inputDate) {
