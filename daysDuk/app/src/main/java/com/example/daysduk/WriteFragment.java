@@ -171,9 +171,9 @@ public class WriteFragment extends Fragment {
                 write_weather1.setImageResource(R.mipmap.checked);
                 picked_weather=1;
 
-                write_weather2.setImageResource(R.mipmap.ic_launcher);
-                write_weather3.setImageResource(R.mipmap.ic_launcher);
-                write_weather4.setImageResource(R.mipmap.ic_launcher);
+                write_weather2.setImageResource(R.mipmap.wind);
+                write_weather3.setImageResource(R.mipmap.rain);
+                write_weather4.setImageResource(R.mipmap.lightning);
             }
         });
 
@@ -184,9 +184,9 @@ public class WriteFragment extends Fragment {
                 write_weather2.setImageResource(R.mipmap.checked);
                 picked_weather=2;
 
-                write_weather1.setImageResource(R.mipmap.ic_launcher);
-                write_weather3.setImageResource(R.mipmap.ic_launcher);
-                write_weather4.setImageResource(R.mipmap.ic_launcher);
+                write_weather1.setImageResource(R.mipmap.sun);
+                write_weather3.setImageResource(R.mipmap.rain);
+                write_weather4.setImageResource(R.mipmap.lightning);
             }
         });
 
@@ -196,9 +196,9 @@ public class WriteFragment extends Fragment {
                 write_weather3.setImageResource(R.mipmap.checked);
                 picked_weather=3;
 
-                write_weather1.setImageResource(R.mipmap.ic_launcher);
-                write_weather2.setImageResource(R.mipmap.ic_launcher);
-                write_weather4.setImageResource(R.mipmap.ic_launcher);
+                write_weather1.setImageResource(R.mipmap.sun);
+                write_weather2.setImageResource(R.mipmap.wind);
+                write_weather4.setImageResource(R.mipmap.lightning);
             }
         });
 
@@ -209,9 +209,9 @@ public class WriteFragment extends Fragment {
                 write_weather4.setImageResource(R.mipmap.checked);
                 picked_weather=4;
 
-                write_weather1.setImageResource(R.mipmap.ic_launcher);
-                write_weather2.setImageResource(R.mipmap.ic_launcher);
-                write_weather3.setImageResource(R.mipmap.ic_launcher);
+                write_weather1.setImageResource(R.mipmap.sun);
+                write_weather2.setImageResource(R.mipmap.wind);
+                write_weather3.setImageResource(R.mipmap.rain);
             }
         });
 
