@@ -57,7 +57,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 class DiarySerializer(serializers.ModelSerializer):
     diary_img = Base64ImageField(
-        max_length=None, use_url=True,
+        max_length=None, use_url=True, required=False
     )
     class Meta:
         model = diary 
