@@ -70,7 +70,7 @@ public class WriteFragment extends Fragment {
     int picked_weather;
 
     private MyAPI mMyAPI;
-    public static final String BASE_URL = "http://192.168.219.104:8000/api/";
+    public static final String BASE_URL = "http://192.168.219.103:8000/";
     public final  String TAG = getClass().getSimpleName();
     //post요청을 위한 필드변수 선언
     String diary_weather = "1"; //default값
@@ -82,6 +82,7 @@ public class WriteFragment extends Fragment {
     String diary_title="default title";
     int diary_id;
     byte[] byterray;
+    String ig;
 
 
     @Override
@@ -131,7 +132,7 @@ public class WriteFragment extends Fragment {
         write_weekday.setText(weekDay);
 
         //레트로핏 API 생성 메소드 호출
-        initMyAPI(BASE_URL);
+        initMyAPI(BASE_URL+"api/");
 
         //날짜 선택하기 버튼 클릭 시
         write_date_button.setOnClickListener(new View.OnClickListener() {
@@ -229,10 +230,34 @@ public class WriteFragment extends Fragment {
             public void onClick(View v) {
                 Log.d(TAG,"POST");
                 diary_weather = String.valueOf(picked_weather);
-                diary_title = write_diaryTitle.getText().toString();
-                diary_content = write_diary.getText().toString();
+                if (write_diaryTitle.getText() != null){
+                    diary_title = write_diaryTitle.getText().toString();
+                }
+                if (write_diary.getText() != null){
+                    diary_content = write_diary.getText().toString();
+                }
+
                 diary_todayme = write_for_today.getText().toString();
                 diary_tomorrowme = write_for_tommorow.getText().toString();
+                //diary_img가 NULL이면 디폴트 이미지로 POST
+                if(diary_img == null){
+                     ig = BASE_URL+"image/b1583239-328.jpg";
+//                    diary_img = BASE_URL+"image/%EA%B0%80%EC%9D%84-2.jpg";
+//                    ig = "/res/drawable/sun.png";
+                    try{
+                        Bitmap img = BitmapFactory.decodeStream(new java.net.URL(ig).openStream());
+                        write_picked_imgview.setVisibility(View.VISIBLE);
+                        write_picked_imgview.setImageBitmap(img);
+                        //Bitmap에서 byteArray
+                        byterray = bitmapToByteArray(img);
+                        //byteArray를 base64로 인코딩해서 diary_img에 넣기
+                        diary_img= Base64.encodeToString(byterray,Base64.NO_WRAP);
+
+                    }
+                    catch (Exception e){
+
+                    }
+                }
                 //Diary내용 Post하기위한 객체 생성
                 PostItem item = new PostItem(diary_id,diary_title, diary_date, diary_weather,
                         diary_content, diary_todayme, diary_tomorrowme,diary_img);
