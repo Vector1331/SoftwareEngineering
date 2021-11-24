@@ -26,6 +26,17 @@ public class PostItem {
         this.diary_tomorrowme = diary_tomorrowme;
         this.diary_img = diary_img;
     }
+    public PostItem(
+            int diary_id,String diary_title, String diary_date, String diary_weather,
+            String diary_content, String diary_todayme, String diary_tomorrowme ) {
+        this.diary_id = diary_id;
+        this.diary_title = diary_title;
+        this.diary_date = diary_date;
+        this.diary_weather = diary_weather;
+        this.diary_content = diary_content;
+        this.diary_todayme = diary_todayme;
+        this.diary_tomorrowme = diary_tomorrowme;
+    }
 
     //getter메소드
     public int getDiary_id() {
