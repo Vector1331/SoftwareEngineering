@@ -18,7 +18,9 @@ class diary(models.Model):
     diary_tomorrowme = models.TextField(max_length = None, null = True, blank = True)
     #diary_img = models.TextField(max_length=None, null=True, blank=True,  )
     #     diary_img = models.Base64ImageField( max_length = None, null = True, blank = True, use_url=True,)
-    diary_img = models.ImageField(upload_to = None, height_field = None, width_field = None, max_length = None, null = True, blank = True)
+#    diary_img = models.ImageField(upload_to = None, height_field = None, width_field = None, max_length = None, null = True, blank = True)
+
+    diary_img = models.ImageField(null = True, blank = True)
 #    user = models.ForeignKey(user, on_delete = models.CASCADE, null = True)
     def __str__(self):
         return self.diary_title
