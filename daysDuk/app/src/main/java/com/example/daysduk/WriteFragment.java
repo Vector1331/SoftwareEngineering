@@ -150,9 +150,8 @@ public class WriteFragment extends Fragment {
                     String setMonth = Integer.toString(write_date_picker.getMonth() + 1);
                     String setDay = Integer.toString(write_date_picker.getDayOfMonth());
                     String inputDate = setYear + setMonth + setDay;
-                    System.out.println(inputDate);
                     String setWeekDay = Toweekday(inputDate);
-                    System.out.println(setWeekDay);
+
 
                     write_year.setText(setYear);
                     write_month.setText(setMonth);
@@ -168,7 +167,6 @@ public class WriteFragment extends Fragment {
 
             @Override
             public void onClick(View view) {
-                System.out.println("날씨클릭됨");
                 write_weather1.setImageResource(R.mipmap.checked);
                 picked_weather = 1;
 

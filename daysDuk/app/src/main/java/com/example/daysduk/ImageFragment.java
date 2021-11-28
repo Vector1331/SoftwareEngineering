@@ -106,9 +106,7 @@ public class ImageFragment extends Fragment {
                     String setMonth = Integer.toString(image_date_picker.getMonth()+1);
                     String setDay = Integer.toString(image_date_picker.getDayOfMonth());
                     String inputDate=setYear+setMonth+setDay;
-                    System.out.println(inputDate);
                     String setWeekDay = Toweekday(inputDate);
-                    System.out.println(setWeekDay);
 
                     image_year.setText(setYear);
                     image_month.setText(setMonth);

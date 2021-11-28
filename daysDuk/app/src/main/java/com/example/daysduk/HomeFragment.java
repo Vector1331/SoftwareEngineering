@@ -3,6 +3,7 @@ package com.example.daysduk;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,7 +30,7 @@ public class HomeFragment extends Fragment {
     ContentsAdapter adapter;
     ArrayList<PostItem> postList;
 
-    private static final String BASE_URL = "http://192.168.219.103:8000/api/";
+    private static final String BASE_URL = "http://192.168.219.104:8000/api/";
     private MyAPI mMyAPI;
 
     String diary_weather = "1"; //default값
@@ -64,6 +65,7 @@ public class HomeFragment extends Fragment {
 
         postList = new ArrayList<>();
 
+
         contentRecyclerView = view.findViewById(R.id.list);
         linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         adapter = new ContentsAdapter(postList);
@@ -87,14 +89,7 @@ public class HomeFragment extends Fragment {
                     List<PostItem> result = response.body();
                     //for(PostItem item : result){
                     for(int i=0; i<result.size(); i++){
-//                        diary_weather = item.getgetWeather();
-//                        diary_img = item.getImage();
-//                        diary_title = item.getTitle();
-//                        diary_content = item.getContent();
-//                        diary_id = item.getDiary_id();
-//                        diary_date = item.getDate();
-//                        diary_todayme = item.getTodayme();
-//                        diary_tomorrowme = item.getTomorrowme();
+
                         diary_weather = result.get(i).getWeather();
                         diary_img = result.get(i).getImage();
                         diary_title = result.get(i).getTitle();
@@ -104,23 +99,13 @@ public class HomeFragment extends Fragment {
                         diary_todayme = result.get(i).getTodayme();
                         diary_tomorrowme = result.get(i).getTomorrowme();
 
-                        System.out.println("시작**weather:"+diary_weather+
-                                "**image:"+diary_img+
-                                "**title:"+diary_title+
-                                "**content:"+diary_content+
-                                "**id:"+diary_id+
-                                "**date:"+diary_date+
-                                "**todayme:"+diary_todayme+
-                                "**tomorrowme:"+diary_tomorrowme +"**끝");
-//                        Log.d(TAG, diary_title + "   title   hi");
-//                        Log.d(TAG, diary_img + "   img   hi");
                         PostItem postItem = new PostItem(diary_id,diary_title, diary_date, diary_weather,
                                 diary_content, diary_todayme, diary_tomorrowme, diary_img);
                         adapter.addItem(postItem);
                     }
-                    //postList.add(result);
-                    //imageOut.setImageResource(imageOut);
+
                     adapter.notifyDataSetChanged();
+
 
                 }else {
                     Log.d(TAG,"Status Code : " + response.code());

@@ -2,17 +2,30 @@ package com.example.daysduk;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.daysduk.model.PostItem;
 import com.google.gson.Gson;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.CalendarMode;
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -24,119 +37,117 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CalendarFragment extends Fragment {
 
-    ArrayList<PostItem> postList;   //객체 담을 그릇
-    //레트로핏 Call객체 생성을 위한 서버버기본주소
-    private static final String BASE_URL = "http://192.168.219.103:8000/api/";
-    private MyAPI mMyAPI;   //API SERVICE객체 생성
-    //response 받아온 객체 저장할 필드 선언 및 초기화 단계
-    String diary_weather = "1"; //default값
-    String diary_img;
-    String diary_date = "";
-    String diary_todayme = "";
-    String diary_tomorrowme = "";
-    String diary_content ="default content";
-    String diary_title="default title";
-    int diary_id;
+    //변수 선언
+    MaterialCalendarView calendarView;
+    TextView cal_year;
+    TextView cal_month;
+    TextView cal_day;
+    TextView cal_freq;
 
-    //레트로핏 초기화 및 생성을 위한 메소드
-    private void initMyAPI(String baseUrl){
-        Log.d(TAG,"initMyAPI : " + baseUrl);
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(baseUrl)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        mMyAPI = retrofit.create(MyAPI.class);
-    }
-
-    private final  String TAG = getClass().getSimpleName();
-
-    /*// TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public CalendarFragment() {
-        // Required empty public constructor
-    }
-
-
-    public static CalendarFragment newInstance(String param1, String param2) {
-        CalendarFragment fragment = new CalendarFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }*/
+    final SelectedDayDecorator selectedDayDecorator = new SelectedDayDecorator();
+    ArrayList <String> freqcal = new ArrayList<String>();
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-//        return inflater.inflate(R.layout.fragment_calendar, container, false);
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
-        initMyAPI(BASE_URL); //객체 생성
-        Log.d(TAG,"GET");
-        postList = new ArrayList<>();
-        Call<List<PostItem>> getCall = mMyAPI.get_diary();  //GET요청 보낼 CALL 객체 생성 , response는 LIST타입
 
-        getCall.enqueue(new Callback<List<PostItem>>() {
+        View view = inflater.inflate(R.layout.fragment_calendar, container, false);
+        calendarView = view.findViewById(R.id.calendar_view);
+        cal_year = view.findViewById(R.id.cal_year);
+        cal_month = view.findViewById(R.id.cal_month);
+        cal_day = view.findViewById(R.id.cal_day);
+        cal_freq = view.findViewById(R.id.cal_freq);
+
+
+        //get date Data from MainActivity
+        Bundle bundle = this.getArguments();
+        if(bundle!=null){
+            freqcal = bundle.getStringArrayList("fromMain");
+        } else if(bundle==null){
+            System.out.println("Null");
+        }
+
+
+        //첫 화면에 보여질 현재 date&freq 초기 설정
+        long now = System.currentTimeMillis();
+        Date currentdate = new Date(now);
+
+        String current_year = Integer.toString(currentdate.getYear()+1900);
+        String current_month = Integer.toString(currentdate.getMonth()+1);
+        String current_day = Integer.toString(currentdate.getDate());
+        String current_dateString = current_year+"-"+current_month+"-"+current_day;
+        int current_count=0;
+
+        for(int i = 0; i<=freqcal.size()-1; i++){
+            String getdate = freqcal.get(i);
+            String splitedDate= getdate.split("T")[0];
+
+            if(splitedDate.equals(current_dateString)){
+                current_count = current_count+1;
+            }
+        }
+
+        cal_freq.setText(Integer.toString(current_count));
+        cal_year.setText(current_year);
+        cal_month.setText(current_month);
+        cal_day.setText(current_day);
+
+
+        //날짜 선택시 쓰여진 일기 수 반영
+        calendarView.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
-            public void onResponse(Call<List<PostItem>> call, Response<List<PostItem>> response) {
-                if( response.isSuccessful()){
-                    List<PostItem> result = response.body();
-                    for(int i=0; i<result.size(); i++){
-                        diary_weather = result.get(i).getWeather();
-                        diary_img = result.get(i).getImage();
-                        diary_title = result.get(i).getTitle();
-                        diary_content = result.get(i).getContent();
-                        diary_id = result.get(i).getDiary_id();
-                        diary_date = result.get(i).getDate();
-                        diary_todayme = result.get(i).getTodayme();
-                        diary_tomorrowme = result.get(i).getTomorrowme();
+            public void onDateSelected(@NonNull @NotNull MaterialCalendarView materialCalendarView, @NonNull @NotNull CalendarDay calendarDay, boolean b) {
+                int year = materialCalendarView.getSelectedDate().getYear();
+                int month = materialCalendarView.getSelectedDate().getMonth()+1;
+                int day = materialCalendarView.getSelectedDate().getDay();
+                int count = 0;
 
-                        System.out.println("시작 **weather:"+diary_weather+
-                                "  **image:"+diary_img+
-                                "  **title:"+diary_title+
-                                "  **content:"+diary_content+
-                                "  **id:"+diary_id+
-                                "  **date:"+diary_date+
-                                "  **todayme:"+diary_todayme+
-                                "  **tomorrowme:"+diary_tomorrowme +"** 끝");
-                        PostItem postItem = new PostItem(diary_id,diary_title, diary_date, diary_weather,
-                                diary_content, diary_todayme, diary_tomorrowme, diary_img);
+                try {
+                    String dateString = year+"-"+month+"-"+day;
+
+                    Date date = simpleDateFormat.parse(dateString);
+                    calendarView.setCurrentDate(date);
+
+                    //TextView 변경
+                    cal_year.setText(Integer.toString(year));
+                    cal_month.setText(Integer.toString(month));
+                    cal_day.setText(Integer.toString(day));
+
+                    for(int i = 0; i<=freqcal.size()-1; i++){
+                        String getdate = freqcal.get(i);
+                        //날짜 분할
+                        String splitedDate= getdate.split("T")[0];
+                        if(splitedDate.equals(dateString)){
+                            count = count+1;
+                        }
                     }
 
-                }else {
-                    Log.d(TAG,"Status Code : " + response.code());
-                    Log.d(TAG,new Gson().toJson(response.errorBody()));
-                    Log.d(TAG,new Gson().toJson(call.request().body()));
-                }
-            }
+                    cal_freq.setText(Integer.toString(count));
 
-            @Override
-            public void onFailure(Call<List<PostItem>> call, Throwable t) {
-                Log.d(TAG,"Fail msg : " + t.getMessage());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
             }
         });
 
 
+        calendarView.state().edit()
+                .setFirstDayOfWeek(Calendar.SUNDAY)
+                .setCalendarDisplayMode(CalendarMode.MONTHS)
+                .commit();
+
+
+
+        calendarView.addDecorators(
+                new SundayDecorator(),
+                new SaturdayDecorator(),
+                selectedDayDecorator
+        );
+
 
         return view;
     }
+
 }

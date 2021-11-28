@@ -59,11 +59,8 @@ public class ContentsAdapter extends RecyclerView.Adapter<ContentsAdapter.Holder
         PostItem item = postdata.get(position);
         //날짜 분할
         String year = item.getDate();
-        //String year = "2021-11-21T10:24:41.249220Z";
         String dateArray0= year.split("T")[0];
         String []dateArray1 = dateArray0.split("-");
-        System.out.println(dateArray1[2]);
-
 
         holder.list_year.setText(dateArray1[0]);
         holder.list_month.setText(dateArray1[1]);
