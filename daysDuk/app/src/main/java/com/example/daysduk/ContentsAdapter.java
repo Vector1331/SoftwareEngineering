@@ -1,9 +1,7 @@
 package com.example.daysduk;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,12 +16,6 @@ import com.example.daysduk.model.PostItem;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -72,7 +64,7 @@ public class ContentsAdapter extends RecyclerView.Adapter<ContentsAdapter.Holder
         //이미지 부분
         if(item.getImage() == null){
             //은지님 이부분 데이터베이스에 일기 사진이 없을 경우 디폴트로 띄울 사진 넣어주시면 돼요!!
-            holder.list_imgView.setImageResource(R.mipmap.gallery2);
+            holder.list_imgView.setImageResource(R.mipmap.defaultduk);
         } else if(item.getImage() !=null){
             Glide.with(v).load(item.getImage()).into(holder.list_imgView);
         }
