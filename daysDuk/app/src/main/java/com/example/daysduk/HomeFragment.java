@@ -30,7 +30,7 @@ public class HomeFragment extends Fragment {
     ContentsAdapter adapter;
     ArrayList<PostItem> postList;
 
-    private static final String BASE_URL = "http://192.168.35.114:8000/api/";
+    private static final String BASE_URL = "http://192.168.219.104:8000/api/";
     private MyAPI mMyAPI;
 
     String diary_weather = "1"; //default값
@@ -74,14 +74,14 @@ public class HomeFragment extends Fragment {
         Call<List<PostItem>> getCall = mMyAPI.get_diary();
 
         //test
-        PostItem postItem1 = new PostItem(1,"hi", "2021-01-01T", "1",
+        /*PostItem postItem1 = new PostItem(1,"hi", "2021-01-01T", "1",
                 "안녕안녕", "오늘", "내일",null);
         PostItem postItem2 = new PostItem(2,"hi2", "2021-01-02T", "3",
                 "안녕안녕2", "오늘2", "내일2",null);
 
         adapter.addItem(postItem1);
         adapter.addItem(postItem2);
-
+*/
         getCall.enqueue(new Callback<List<PostItem>>() {
             @Override
             public void onResponse(Call<List<PostItem>> call, Response<List<PostItem>> response) {

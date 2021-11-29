@@ -72,7 +72,7 @@ public class WriteFragment extends Fragment {
     int picked_weather;
 
     private MyAPI mMyAPI;
-    public static final String BASE_URL = "http://192.168.35.114:8000/";
+    public static final String BASE_URL = "http://192.168.219.104:8000/";
     public final String TAG = getClass().getSimpleName();
     //post요청을 위한 필드변수 선언
     String diary_weather = "1"; //default값
@@ -257,6 +257,7 @@ public class WriteFragment extends Fragment {
                         //반응이 성공이면
                         if (response.isSuccessful()) {
                             Log.d(TAG, "등록 완료");
+                            Toast.makeText(getContext(),"일기가 등록되었습니다.",Toast.LENGTH_SHORT).show();
                         } else {
                             //안될 경우 item에 저장값 보기위한 로그출력
                             Log.d(TAG, new Gson().toJson(item));

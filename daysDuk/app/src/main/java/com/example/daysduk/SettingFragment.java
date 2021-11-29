@@ -25,7 +25,6 @@ public class SettingFragment extends Fragment {
 
         //변수 선언
         settingInquiry = (Button)view.findViewById(R.id.setting_inquiry);
-        settingLogout = (Button)view.findViewById(R.id.setting_logout);
 
         //이메일로 문의하기 버튼 클릭시 메일 보내기 이동
         settingInquiry.setOnClickListener(new View.OnClickListener() {
@@ -43,11 +42,11 @@ public class SettingFragment extends Fragment {
         });
 
         //로그아웃 버튼 클릭시
-        settingLogout.setOnClickListener(new View.OnClickListener() {
+        /*settingLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
             }
-        });
+        });*/
 
 
         // Inflate the layout for this fragment

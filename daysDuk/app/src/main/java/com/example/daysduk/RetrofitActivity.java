@@ -34,7 +34,7 @@ public class RetrofitActivity {
     int cal_diaryfrequency;
 
     //구동하는 서버의 무선랜 ipv4 주소로 바꾸어 줄 것. ip는 ipconfig로 찾을 수 있음.
-    private static final String BASE_URL = "http://192.168.219.103:8000/api/";
+    private static final String BASE_URL = "http://192.168.219.104:8000/api/";
 
     private final  String TAG = getClass().getSimpleName();
 

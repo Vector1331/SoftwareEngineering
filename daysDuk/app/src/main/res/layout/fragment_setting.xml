@@ -38,14 +38,14 @@
         <TextView
             android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:text="사용자 정보"
+            android:text="커뮤니티"
             android:textStyle="bold"
             android:textSize="20dp">
         </TextView>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="daysduck@dukcung.ac.kr"
+            android:text="daysduck"
             android:textSize="20dp"/>
 
     </LinearLayout>
@@ -120,15 +120,6 @@
         android:layout_marginBottom="3dp"
         android:background="@color/black"/>
 
-    <Button
-        android:id="@+id/setting_logout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:backgroundTint="#a98c72"
-        android:layout_gravity="center"
-        android:elevation="20dp"
-        android:text="로그아웃" />
 
 
 </LinearLayout>
