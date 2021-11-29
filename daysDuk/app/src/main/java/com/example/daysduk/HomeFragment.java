@@ -30,7 +30,7 @@ public class HomeFragment extends Fragment {
     ContentsAdapter adapter;
     ArrayList<PostItem> postList;
 
-    private static final String BASE_URL = "http://192.168.219.104:8000/api/";
+    private static final String BASE_URL = "http://192.168.35.114:8000/api/";
     private MyAPI mMyAPI;
 
     String diary_weather = "1"; //default값

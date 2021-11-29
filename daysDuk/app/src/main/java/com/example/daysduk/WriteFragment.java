@@ -72,7 +72,7 @@ public class WriteFragment extends Fragment {
     int picked_weather;
 
     private MyAPI mMyAPI;
-    public static final String BASE_URL = "http://192.168.219.103:8000/";
+    public static final String BASE_URL = "http://192.168.35.114:8000/";
     public final String TAG = getClass().getSimpleName();
     //post요청을 위한 필드변수 선언
     String diary_weather = "1"; //default값

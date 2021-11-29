@@ -30,7 +30,10 @@ public class SelectedDayDecorator implements DayViewDecorator {
     public void decorate(DayViewFacade dayViewFacade) {
         dayViewFacade.addSpan(new StyleSpan(Typeface.BOLD));
         dayViewFacade.addSpan(new RelativeSizeSpan(1.3f));
-        dayViewFacade.addSpan(new ForegroundColorSpan(Color.GREEN));
+        dayViewFacade.addSpan(new ForegroundColorSpan(Color.YELLOW));
+
+
+
 
     }
 
